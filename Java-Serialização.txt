@@ -1,0 +1,82 @@
+package br.com.serializacao.java.io.teste;
+
+import java.io.Serializable;
+
+/**
+ * Classe que representa um cliente no Bytebank.
+ *
+ * @author Diego Augusto
+ * @version 0.1
+ */
+
+public class Cliente implements Serializable {
+
+	private String nome;
+	private String cpf;
+	private String profissao;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
+	}
+
+}
+
+****Fim da classe Cliente****
+
+****Começo da classe TesteSerializacao****
+
+package br.com.serializacao.java.io.teste;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class TesteSerializacao {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		
+		Cliente cliente = new Cliente();
+		cliente.setNome("Diego Augusto");
+		cliente.setProfissao("Desenvolvedor");
+		cliente.setCpf("123456789");
+		
+		
+		//O arquivo cliente.bin está no mesmo local do programa
+		//ele vai persistir o cliente.bin no hd
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("cliente.bin"));
+		oos.writeObject(cliente);
+		oos.close();
+		
+		//Realizando a desserialização, imprimindo o cpf do cliente
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("cliente.bin"));
+		Cliente cliente2 = (Cliente) ois.readObject();
+		ois.close();
+		System.out.println(cliente2.getCpf());
+	}
+
+}
+
+****Fim da classe TesteSerializacao****
